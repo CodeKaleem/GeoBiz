@@ -157,8 +157,10 @@ export async function fetchBusinesses(city: string, type: string): Promise<Busin
   resultsCache.set(cacheKey, { data: final, ts: Date.now() });
   
   // Clean up cache if too large
-  if (resultsCache.size > 100) resultsCache.delete(resultsCache.keys().next().value);
-  if (locationCache.size > 200) locationCache.delete(locationCache.keys().next().value);
+  const firstResultKey = resultsCache.keys().next().value;
+  if (resultsCache.size > 100 && firstResultKey) resultsCache.delete(firstResultKey);
+  const firstLocationKey = locationCache.keys().next().value;
+  if (locationCache.size > 200 && firstLocationKey) locationCache.delete(firstLocationKey);
 
   return final;
 }
