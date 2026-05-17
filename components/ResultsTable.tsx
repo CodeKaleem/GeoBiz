@@ -25,15 +25,17 @@ export default function ResultsTable({
 
   const badge = (text: string) => (
     <span
+      className="terminal-badge"
       style={{
-        background: "rgba(99,102,241,0.15)",
-        color: "var(--color-brand-200)",
-        borderRadius: "999px",
-        padding: "0.2rem 0.6rem",
-        fontSize: "0.72rem",
-        fontWeight: 600,
-        letterSpacing: "0.03em",
-        textTransform: "capitalize",
+        background: "rgba(232, 168, 50, 0.1)",
+        color: "var(--amber)",
+        border: "1px solid rgba(232, 168, 50, 0.2)",
+        padding: "0.15rem 0.6rem",
+        fontSize: "0.65rem",
+        fontWeight: 700,
+        fontFamily: "var(--font-mono)",
+        textTransform: "uppercase",
+        letterSpacing: "0.05em"
       }}
     >
       {text}
@@ -45,19 +47,18 @@ export default function ResultsTable({
   return (
     <div
       style={{
-        border: "1px solid var(--color-border)",
-        borderRadius: "var(--radius-xl)",
+        border: "1px solid var(--border)",
+        background: "var(--bg)",
         overflow: "hidden",
-        background: "var(--color-surface-2)",
       }}
     >
       <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.875rem" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.8rem", color: "var(--text)" }}>
           <thead>
             <tr
               style={{
-                background: "var(--color-surface-3)",
-                borderBottom: "1px solid var(--color-border)",
+                background: "var(--raised)",
+                borderBottom: "1px solid var(--border)",
               }}
             >
               {["#", "Name", "Category", "Phone", "Email", "Website", "Address"].map(
@@ -65,12 +66,13 @@ export default function ResultsTable({
                   <th
                     key={h}
                     style={{
-                      padding: "0.85rem 1rem",
+                      padding: "0.75rem 1rem",
                       textAlign: "left",
-                      color: "var(--color-muted)",
-                      fontWeight: 600,
-                      fontSize: "0.75rem",
-                      letterSpacing: "0.07em",
+                      color: "var(--dim)",
+                      fontFamily: "var(--font-mono)",
+                      fontWeight: 700,
+                      fontSize: "0.7rem",
+                      letterSpacing: "0.08em",
                       textTransform: "uppercase",
                       whiteSpace: "nowrap",
                     }}
@@ -91,112 +93,83 @@ export default function ResultsTable({
                   key={b.id}
                   onClick={() => onSelectBusiness(b)}
                   style={{
-                    borderBottom: "1px solid var(--color-border)",
+                    borderBottom: "1px solid var(--border)",
                     background: isSelected
-                      ? "rgba(99,102,241,0.12)"
-                      : hasFullContact ? "rgba(34,197,94,0.02)" : "transparent",
+                      ? "rgba(232, 168, 50, 0.08)"
+                      : "transparent",
                     cursor: "pointer",
-                    transition: "background 0.15s",
+                    transition: "all 0.15s",
                   }}
-                  onMouseEnter={(e) => {
-                    if (!isSelected)
-                      e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isSelected)
-                      e.currentTarget.style.background = hasFullContact ? "rgba(34,197,94,0.02)" : "transparent";
-                  }}
+                  className="terminal-row"
                 >
                   <td
                     style={{
-                      padding: "0.85rem 1rem",
-                      color: "var(--color-muted)",
-                      fontSize: "0.78rem",
-                      minWidth: "2.5rem",
+                      padding: "0.75rem 1rem",
+                      color: isSelected ? "var(--amber)" : "var(--muted)",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.7rem",
                     }}
                   >
-                    {i + 1}
+                    {String(i + 1).padStart(2, '0')}
                   </td>
                   <td
                     style={{
-                      padding: "0.85rem 1rem",
+                      padding: "0.75rem 1rem",
                       fontWeight: 600,
-                      color: isSelected ? "var(--color-brand-200)" : "var(--color-text)",
-                      minWidth: "160px",
+                      color: isSelected ? "var(--white)" : "var(--text)",
+                      fontFamily: "var(--font-condensed)",
+                      fontSize: "0.95rem",
+                      letterSpacing: "0.02em",
+                      textTransform: "uppercase"
                     }}
                   >
                     {b.name}
                   </td>
-                  <td style={{ padding: "0.85rem 1rem", minWidth: "100px" }}>
+                  <td style={{ padding: "0.75rem 1rem" }}>
                     {badge(b.category)}
                   </td>
                   <td
                     style={{
-                      padding: "0.85rem 1rem",
-                      color: b.phone ? "#4ade80" : "var(--color-muted)",
-                      minWidth: "130px",
+                      padding: "0.75rem 1rem",
+                      color: b.phone ? "var(--green)" : "var(--muted)",
+                      fontFamily: "var(--font-mono)",
                     }}
                   >
-                    {b.phone ? (
-                      <a
-                        href={`tel:${b.phone}`}
-                        style={{ color: "inherit", textDecoration: "none" }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {b.phone}
-                      </a>
-                    ) : (
-                      <span style={{ opacity: 0.4 }}>N/A</span>
-                    )}
+                    {b.phone || "---"}
                   </td>
                   <td
                     style={{
-                      padding: "0.85rem 1rem",
-                      color: b.email ? "#60a5fa" : "var(--color-muted)",
-                      minWidth: "140px",
+                      padding: "0.75rem 1rem",
+                      color: b.email ? "var(--amber)" : "var(--muted)",
+                      fontFamily: "var(--font-mono)",
                     }}
                   >
-                    {b.email ? (
-                      <a
-                        href={`mailto:${b.email}`}
-                        style={{ color: "inherit", textDecoration: "none" }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {b.email}
-                      </a>
-                    ) : (
-                      <span style={{ opacity: 0.4 }}>N/A</span>
-                    )}
+                    {b.email || "---"}
                   </td>
-                  <td
-                    style={{
-                      padding: "0.85rem 1rem",
-                      minWidth: "140px",
-                    }}
-                  >
+                  <td style={{ padding: "0.75rem 1rem" }}>
                     {b.website ? (
                       <a
                         href={b.website.startsWith('http') ? b.website : `https://${b.website}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ color: "var(--color-brand-400)", textDecoration: "none" }}
+                        style={{ color: "var(--amber)", textDecoration: "none", fontFamily: "var(--font-mono)", fontSize: "0.7rem" }}
                         onClick={(e) => e.stopPropagation()}
                       >
-                        Visit Website ↗
+                        VIEW LINK ↗
                       </a>
                     ) : (
-                      <span style={{ opacity: 0.4, color: "var(--color-muted)" }}>N/A</span>
+                      <span style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>---</span>
                     )}
                   </td>
                   <td
                     style={{
-                      padding: "0.85rem 1rem",
-                      color: b.address ? "var(--color-text)" : "var(--color-muted)",
-                      maxWidth: "260px",
-                      minWidth: "160px",
+                      padding: "0.75rem 1rem",
+                      color: isSelected ? "var(--text)" : "var(--dim)",
+                      maxWidth: "240px",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
+                      fontFamily: "var(--font-sans)",
                     }}
                     title={b.address || ""}
                   >
@@ -213,28 +186,30 @@ export default function ResultsTable({
       {page < totalPages && (
         <div
           style={{
-            padding: "1rem",
+            padding: "1.5rem",
             display: "flex",
             justifyContent: "center",
-            borderTop: "1px solid var(--color-border)",
+            background: "var(--bg)",
+            borderTop: "1px solid var(--border)",
           }}
         >
           <button
-            id="load-more-btn"
             type="button"
             onClick={() => setPage((p) => p + 1)}
             style={{
-              background: "var(--color-surface-3)",
-              border: "1px solid var(--color-border)",
-              borderRadius: "var(--radius-lg)",
-              color: "var(--color-brand-400)",
-              padding: "0.6rem 1.8rem",
-              fontSize: "0.85rem",
-              fontWeight: 600,
+              background: "var(--raised)",
+              border: "1px solid var(--border)",
+              color: "var(--amber)",
+              padding: "0.5rem 2rem",
+              fontSize: "0.75rem",
+              fontFamily: "var(--font-mono)",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
               cursor: "pointer",
             }}
           >
-            Load more ({businesses.length - page * PAGE_SIZE} remaining)
+            Load Next Segment ({businesses.length - page * PAGE_SIZE})
           </button>
         </div>
       )}
